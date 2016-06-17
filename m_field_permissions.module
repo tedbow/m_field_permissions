@@ -1,0 +1,15 @@
+<?php
+
+use Drupal\Core\Access\AccessResult;
+
+/**
+ * Implements hook_entity_field_access().
+ */
+function m_field_permissions_entity_field_access($operation, \Drupal\Core\Field\FieldDefinitionInterface $field_definition, \Drupal\Core\Session\AccountInterface $account, \Drupal\Core\Field\FieldItemListInterface $items = NULL) {
+  if ($field_definition->getTargetEntityTypeId() == 'node'
+    && $field_definition->getName() == 'field_tags'
+    && $operation == 'edit') {
+    return AccessResult::allowedIfHasPermission($account, 'administer nodes');
+  }
+  return AccessResult::neutral();
+}
